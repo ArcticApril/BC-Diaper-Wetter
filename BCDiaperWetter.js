@@ -1,8 +1,3 @@
-// Load in Mod SDK
-import bcModSDK from 'bondage-club-mod-sdk';
-
-const api = bcModSDK.registerMod('DiaperWetter','0.1');
-
 // A simple table for the colors that the script will use.
 DiaperUseLevels = 
 [
