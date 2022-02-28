@@ -1,5 +1,5 @@
 BUG PRIORITY:
-☐ Firefox doesn't like UseLevels. Change to DiaperUseLevels before next build.
+✔ Firefox doesn't like UseLevels. Change to DiaperUseLevels before next build. ce@done(22-02-27 21:08)
 
 HIGH PRIORITY:
 ✔ Chat messages when diaper is used. @done(22-02-27 20:25)
