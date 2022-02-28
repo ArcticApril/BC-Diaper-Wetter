@@ -1,0 +1,18 @@
+BUG PRIORITY:
+☐ Firefox doesn't like UseLevels. Change to DiaperUseLevels before next build.
+
+HIGH PRIORITY:
+✔ Chat messages when diaper is used. @done(22-02-27 20:25)
+☐ Chat based imports.
+
+MEDIUM PRIORITY
+☐ Generalize. Generalize. Generalize.
+    ☐ Make it so the timer length can be adjusted.
+☐ Separate front and back coloring.
+☐ Package based deployment.
+
+LOW PRIORITY:
+☐ UI configurator.
+☐ Generalize for other kinds of diapers.
+☐ Actions that make the diaper tick faster.
+☐ Command to check a baby's diaper (will whisper if it's used partially or fully, messed or just wet)
