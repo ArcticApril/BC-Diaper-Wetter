@@ -154,7 +154,7 @@ function manageDesperation(diaperTimerModifier = 1)
         // Decrease desperation to a minimum of zero if no milk is found
         desperation = (desperation != 0) ? desperation - 1 : 0;
     }
-    return diaperTimerModifier * desperation;
+    return diaperTimerModifier * (desperation+1);
 }
 
 // Updates the color of a diaper
