@@ -33,12 +33,24 @@ function diaperWetter()
     ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: "Say hello to the little baby " + Player.Name + "!"}]});
     // Initial clear. Only time "both" should be used for refreshDiaper.
     refreshDiaper("both");
-    messThreshold = .7;
-    wetThreshold = .5;
+    messThreshold = .7;             // 1-chance to mess
+    wetThreshold = .5;              // 1-chance to wet
+    diaperTimerBase = 30*60*1000;   // The default amount of time between ticks
+    diaperTimer = diaperTimerBase;  // The actual time between ticks (may be affected by)
 
     // Go into main loop
-    diaperRunning = true;
+    diaperRunning = true;           // Helps with the kill switch
     checkTick();
+}
+
+// Changes how long it takes between ticks (in minutes)
+function changeDiaperTimer(delay)
+{
+    // Bound the delay to between 2 minutes and 1 hour
+    if (delay < 2) { delay = 2; }
+    else if (delay > 60) { delay = 60; }
+
+    diaperTimerBase = delay;        // Updates diaperTimerBase
 }
 
 // Refresh the diaper settings so wet and mess levels are 0. Pass "chastity", "panties", or "both" so only the correct diaper gets reset.
