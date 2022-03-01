@@ -37,6 +37,8 @@ function diaperWetter()
     wetThreshold = .5;              // 1-chance to wet
     diaperTimerBase = 30*60*1000;   // The default amount of time between ticks
     diaperTimer = diaperTimerBase;  // The actual time between ticks (may be affected by)
+    regressionLevel = 0;            // Used for tracking how much the user has regressed (affects the timer)
+    desperation = 0;
 
     // Go into main loop
     diaperRunning = true;           // Helps with the kill switch
@@ -109,6 +111,52 @@ function checkForDiaper(slot)
     return InventoryGet(Player, slot)?.Asset?.Name === "PoofyDiaper" || InventoryGet(Player, slot)?.Asset?.Name === "BulkyDiaper";
 }
 
+// Checks to see if the user has a nursery milk equiped
+function checkForNurseryMilk()
+{
+    return (InventoryGet(Player, "ItemMouth") === "RegressedMilk") || (InventoryGet(Player, "ItemMouth2") === "RegressedMilk") || (InventoryGet(Player, "ItemMouth3") === "RegressedMilk");
+}
+
+// Checks for a normal milk bottle
+function checkForMilk()
+{
+    return (InventoryGet(Player, "ItemMouth") === "MilkBottle") || (InventoryGet(Player, "ItemMouth2") === "MilkBottle") || (InventoryGet(Player, "ItemMouth3") === "MilkBottle");
+}
+
+// Handles the regression counter
+function manageRegression(diaperTimerModifier = 1)
+{
+    if (checkForNurseryMilk() && regressionLevel < 6)
+    {
+        regressionLevel++;
+    }
+    else if (!checkForNurseryMilk() && regressionLevel > 0)
+    {
+        regressionLevel--;
+    }
+
+    return diaperTimerModifier * (2 ** regressionLevel);
+}
+
+// Sets the users desperation to 3 when they are given a milk bottle
+function setDesperation()
+{
+    desperation = 3;
+}
+// Will be called by chat handler once that is implemented
+
+// Handles "desperateness" aka how recently a milk bottle was drunk
+function manageDesperation(diaperTimerModifier = 1)
+{
+    // If they don't have a milk bottle anymore
+    if (!checkForMilk())
+    {
+        // Decrease desperation to a minimum of zero if no milk is found
+        desperation = (desperation != 0) ? desperation - 1 : 0;
+    }
+    return diaperTimerModifier * desperation;
+}
+
 // Updates the color of a diaper
 function changeDiaperColor(slot)
 {
@@ -158,8 +206,14 @@ function checkTick()
     // Terminate loop if the user isn't wearing a compatible diaper
     if((checkForDiaper("ItemPelvis") || checkForDiaper("Panties")) && diaperRunning === true)
     {
+        // Handle modifiers
+        var diaperTimerModifier = 1;    // We will divide by the modifier (positive modifiers decrease the timer)
+        diaperTimerModifier = manageRegression(diaperTimerModifier);
+        diaperTimerModifier = manageDesperation(diaperTimerModifier);
+        diaperTimer = diaperTimerBase / diaperTimerModifier;
+
         // Wait for a bit
-        setTimeout(checkTick, 30*60*1000);
+        setTimeout(checkTick, diaperTimer*60*1000);
         // Go to main logic
         diaperTick();
     } 
