@@ -27,6 +27,23 @@ DiaperUseMessages =
     "ChangeDiaperBoth": " has gotten a fresh pair of diapers."
 };
 
+diaperLoop = null;         // Keeps a hold of the loop so it can be exited at any time easily
+
+// Destutter speach. Needed for interations with other mods
+function destutter(string)
+{
+    // Step over every character in the string
+    for (var i = 0 ; i < string.length - 2 ; i++)
+    {
+        if (string.at(i+1) === "-" && string.at(i) === string.at(i+2))
+        {
+            console.log(string.at(i));
+            string = string.substring(0, i) + string.substring(i+2, string.length);
+        }
+    }
+  return string;
+}
+
 // Chat handeler
 ServerSocket.on("ChatRoomMessage", bcdw);
 function bcdw(data)
@@ -34,8 +51,6 @@ function bcdw(data)
     // First, make sure there's actually something to read
     if (data)
     {
-        console.log(data);
-        console.log(data?.Content);
         // Check to see if a milk bottle is used on the user
         if (
             data.Type === "Action" &&
@@ -51,11 +66,11 @@ function bcdw(data)
         // Starts the script running
         if 
         (
-            data.Content.startsWith("->diaper") &&
+            destutter(data?.Content).startsWith("->diaper") &&
             (data.Type === "Chat" || data.Type === "Whisper")
         )
         {
-            bcdwCommands(data.Content.substring(data.Content.length-5, data.Content.length), data.Sender);
+            bcdwCommands(destutter(data?.Content).substring(9, data.Content.length), data.Sender);
         }
     }
 }
@@ -72,8 +87,16 @@ function bcdwCommands(data, callerID)
         {
             diaperWetter();
         }
+
+        // End the script
+        if (data.startsWith("stop"))
+        {
+            stopWetting();
+        }
     }
 }
+
+
 
 // Initializer function
 function diaperWetter()
@@ -85,7 +108,8 @@ function diaperWetter()
     wetThreshold = .5;              // 1-chance to wet
     diaperTimerBase = 30;           // The default amount of time between ticks in minutes
     regressionLevel = 0;            // Used for tracking how much the user has regressed (affects the timer)
-    desperationLevel = 0;
+    desperationLevel = 0;           // Used for tracking how recently a milk bottle has been used (affects the timer)
+    
 
     // Handle modifiers
     var diaperTimerModifier = 1;    // We will divide by the modifier (positive modifiers decrease the timer)
@@ -249,7 +273,10 @@ function changeDiaperColor(slot)
 // Command to stop the script from running
 function stopWetting()
 {
+    console.log("See you next time!");
     diaperRunning = false;
+    clearTimeout(diaperLoop);
+    checkTick();
 }
 
 // Funcky while loop
@@ -259,10 +286,15 @@ function checkTick()
     if((checkForDiaper("ItemPelvis") || checkForDiaper("Panties")) && diaperRunning === true)
     {
         // Wait for a bit
-        setTimeout(checkTick, diaperTimer*60*1000);
+        diaperLoop = setTimeout(checkTick, diaperTimer*60*1000);
         // Go to main logic
         diaperTick();
-    } 
+    }
+    else
+    {
+        diaperRunning = false;
+        ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: "Awww, " + Player.Name + " is all grown up!"}]});
+    }
 }
 
 // Body function
