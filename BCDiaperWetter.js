@@ -20,7 +20,7 @@ DiaperUseMessages =
     "MessOnly": " has messed her diaper.",
     "MessOnlyFully": " has fully messed her diaper.",
     "WetOnly": " has wet her diaper.",
-    "WetOnly": " has fully wet her diaper.",
+    "WetOnlyFully": " has fully wet her diaper.",
     "ChangeDiaperInner": " has gotten a fresh inner diaper.",
     "ChangeDiaperOuter": " has gotten a fresh outer diaper.",
     "ChangeDiaperOnly": " has gotten a fresh diaper.",
@@ -35,10 +35,15 @@ function diaperWetter()
     refreshDiaper("both");
     messThreshold = .7;             // 1-chance to mess
     wetThreshold = .5;              // 1-chance to wet
-    diaperTimerBase = 30*60*1000;   // The default amount of time between ticks
-    diaperTimer = diaperTimerBase;  // The actual time between ticks (may be affected by)
+    diaperTimerBase = 30;           // The default amount of time between ticks in minutes
     regressionLevel = 0;            // Used for tracking how much the user has regressed (affects the timer)
-    desperation = 0;
+    desperationLevel = 0;
+
+    // Handle modifiers
+    var diaperTimerModifier = 1;    // We will divide by the modifier (positive modifiers decrease the timer)
+    diaperTimerModifier = manageRegression(diaperTimerModifier);
+    diaperTimerModifier = manageDesperation(diaperTimerModifier);
+    diaperTimer = diaperTimerBase / diaperTimerModifier;
 
     // Go into main loop
     diaperRunning = true;           // Helps with the kill switch
@@ -114,13 +119,13 @@ function checkForDiaper(slot)
 // Checks to see if the user has a nursery milk equiped
 function checkForNurseryMilk()
 {
-    return (InventoryGet(Player, "ItemMouth") === "RegressedMilk") || (InventoryGet(Player, "ItemMouth2") === "RegressedMilk") || (InventoryGet(Player, "ItemMouth3") === "RegressedMilk");
+    return (InventoryGet(Player, "ItemMouth")?.Asset?.Name === "RegressedMilk") || (InventoryGet(Player, "ItemMouth2")?.Asset?.Name === "RegressedMilk") || (InventoryGet(Player, "ItemMouth3")?.Asset?.Name === "RegressedMilk");
 }
 
 // Checks for a normal milk bottle
 function checkForMilk()
 {
-    return (InventoryGet(Player, "ItemMouth") === "MilkBottle") || (InventoryGet(Player, "ItemMouth2") === "MilkBottle") || (InventoryGet(Player, "ItemMouth3") === "MilkBottle");
+    return (InventoryGet(Player, "ItemMouth")?.Asset?.Name === "MilkBottle") || (InventoryGet(Player, "ItemMouth2")?.Asset?.Name === "MilkBottle") || (InventoryGet(Player, "ItemMouth3")?.Asset?.Name === "MilkBottle");
 }
 
 // Handles the regression counter
@@ -135,13 +140,13 @@ function manageRegression(diaperTimerModifier = 1)
         regressionLevel--;
     }
 
-    return diaperTimerModifier * (2 ** regressionLevel);
+    return diaperTimerModifier * Math.pow(2, regressionLevel);
 }
 
-// Sets the users desperation to 3 when they are given a milk bottle
+// Sets the users desperationLevel to 3 when they are given a milk bottle
 function setDesperation()
 {
-    desperation = 3;
+    desperationLevel = 3;
 }
 // Will be called by chat handler once that is implemented
 
@@ -151,10 +156,10 @@ function manageDesperation(diaperTimerModifier = 1)
     // If they don't have a milk bottle anymore
     if (!checkForMilk())
     {
-        // Decrease desperation to a minimum of zero if no milk is found
-        desperation = (desperation != 0) ? desperation - 1 : 0;
+        // Decrease desperationLevel to a minimum of zero if no milk is found
+        desperationLevel = (desperationLevel != 0) ? desperationLevel - 1 : 0;
     }
-    return diaperTimerModifier * (desperation+1);
+    return diaperTimerModifier * (desperationLevel+1);
 }
 
 // Updates the color of a diaper
@@ -206,12 +211,6 @@ function checkTick()
     // Terminate loop if the user isn't wearing a compatible diaper
     if((checkForDiaper("ItemPelvis") || checkForDiaper("Panties")) && diaperRunning === true)
     {
-        // Handle modifiers
-        var diaperTimerModifier = 1;    // We will divide by the modifier (positive modifiers decrease the timer)
-        diaperTimerModifier = manageRegression(diaperTimerModifier);
-        diaperTimerModifier = manageDesperation(diaperTimerModifier);
-        diaperTimer = diaperTimerBase / diaperTimerModifier;
-
         // Wait for a bit
         setTimeout(checkTick, diaperTimer*60*1000);
         // Go to main logic
@@ -223,12 +222,11 @@ function checkTick()
 // If the baby uses their diaper, it will make the front of their diaper look like it's been used
 function diaperTick()
 {
-    // Automatically reset once the baby's diaper is changed (front color reset to #808080)
-    // if ((InventoryGet(Player, "ItemPelvis").Color[1] === "#808080" && InventoryGet(Player, "Panties").Color[1] === "#808080") && (WetLevel > 0 || MessLevel > 0))
-    // {
-    //     WetLevel = 0;
-    //     MessLevel = 0;
-    // }
+    // Handle modifiers
+    var diaperTimerModifier = 1;    // We will divide by the modifier (positive modifiers decrease the timer)
+    diaperTimerModifier = manageRegression(diaperTimerModifier);
+    diaperTimerModifier = manageDesperation(diaperTimerModifier);
+    diaperTimer = diaperTimerBase / diaperTimerModifier;
 
     testMess = Math.random();
     // If the baby messes, increment the mess level to a max of 2 and make sure that the wet level is at least as high as the mess level.
