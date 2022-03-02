@@ -27,6 +27,54 @@ DiaperUseMessages =
     "ChangeDiaperBoth": " has gotten a fresh pair of diapers."
 };
 
+// Chat handeler
+ServerSocket.on("ChatRoomMessage", bcdw);
+function bcdw(data)
+{
+    // First, make sure there's actually something to read
+    if (data)
+    {
+        console.log(data);
+        console.log(data?.Content);
+        // Check to see if a milk bottle is used on the user
+        if (
+            data.Type === "Action" &&
+            data.Content === "ActionUse" &&
+            data.Dictionary[1]?.Tag === "DestinationCharacter" &&
+            data.Dictionary[1]?.MemberNumber === Player.MemberNumber &&
+            data.Dictionary[2]?.AssetName === "MilkBottle"
+        )
+        {
+            setDesperation();
+        }
+
+        // Starts the script running
+        if 
+        (
+            data.Content.startsWith("->diaper") &&
+            (data.Type === "Chat" || data.Type === "Whisper")
+        )
+        {
+            bcdwCommands(data.Content.substring(data.Content.length-5, data.Content.length), data.Sender);
+        }
+    }
+}
+
+// Command handler
+function bcdwCommands(data, callerID)
+{
+    console.log(data);
+    // Commands only the user can use
+    if (callerID === Player.MemberNumber)
+    {
+        // Start the script
+        if (data.startsWith("start"))
+        {
+            diaperWetter();
+        }
+    }
+}
+
 // Initializer function
 function diaperWetter()
 {
@@ -148,7 +196,6 @@ function setDesperation()
 {
     desperationLevel = 3;
 }
-// Will be called by chat handler once that is implemented
 
 // Handles "desperateness" aka how recently a milk bottle was drunk
 function manageDesperation(diaperTimerModifier = 1)
