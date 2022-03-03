@@ -3,13 +3,13 @@ BUG PRIORITY:
 
 HIGH PRIORITY:
 ✔ Chat messages when diaper is used. @done(22-02-27 20:25)
-☐ Chat based imports.
+✔ Chat based imports. @done(22-03-01 20:52)
 
 MEDIUM PRIORITY
 ☐ Generalize. Generalize. Generalize.
-    ☐ Make it so the timer length can be adjusted.
+    ✔ Make it so the timer length can be adjusted. @done(22-03-01 20:52)
 ☐ Separate front and back coloring.
-☐ Package based deployment.
+✔ Package based deployment. @done(22-02-27 22:53)
 
 LOW PRIORITY:
 ☐ UI configurator.
