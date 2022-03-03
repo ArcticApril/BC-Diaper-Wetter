@@ -27,6 +27,37 @@ DiaperUseMessages =
     "ChangeDiaperBoth": " has gotten a fresh pair of diapers."
 };
 
+// Table to store all the defaul values for diaperWetter()
+const diaperDefaultValues = 
+{
+    messChance: .3,
+    wetChance: .5,
+    baseTimer: 30,
+    regressionLevel: 0,
+    desperationLevel: 0,
+    messLevelInner: 0,
+    wetLevelInner: 0,
+    messLevelOuter: 0,
+    wetLevelOuter: 0
+};
+
+diaperLoop = null;         // Keeps a hold of the loop so it can be exited at any time easily
+
+// Destutter speach. Needed for interations with other mods
+function destutter(string)
+{
+    // Step over every character in the string
+    for (var i = 0 ; i < string.length - 2 ; i++)
+    {
+        if (string.at(i+1) === "-" && string.at(i) === string.at(i+2))
+        {
+            console.log(string.at(i));
+            string = string.substring(0, i) + string.substring(i+2, string.length);
+        }
+    }
+  return string;
+}
+
 // Chat handeler
 ServerSocket.on("ChatRoomMessage", bcdw);
 function bcdw(data)
@@ -34,8 +65,6 @@ function bcdw(data)
     // First, make sure there's actually something to read
     if (data)
     {
-        console.log(data);
-        console.log(data?.Content);
         // Check to see if a milk bottle is used on the user
         if (
             data.Type === "Action" &&
@@ -51,41 +80,140 @@ function bcdw(data)
         // Starts the script running
         if 
         (
-            data.Content.startsWith("->diaper") &&
+            destutter(data?.Content).startsWith("->diaper") &&
             (data.Type === "Chat" || data.Type === "Whisper")
         )
         {
-            bcdwCommands(data.Content.substring(data.Content.length-5, data.Content.length), data.Sender);
+            // Parse out data into a queue for easier processing
+            chatCommand = data?.Content.split(" ");
+            chatCommand.shift();
+
+            // Send to command parser
+            bcdwCommands(chatCommand.reverse(), data.Sender);
         }
     }
 }
 
 // Command handler
-function bcdwCommands(data, callerID)
+function bcdwCommands(chatCommand, callerID)
 {
-    console.log(data);
     // Commands only the user can use
     if (callerID === Player.MemberNumber)
     {
         // Start the script
-        if (data.startsWith("start"))
+        if (chatCommand[chatCommand.length-1] === "start")
         {
-            diaperWetter();
+            // Check to see if other arguments have been passed as well (default regression level, desperation, or use levels)
+            chatCommand.pop()
+
+            // Parse arguments for command
+            let commandArguments = ["WetChance", "MessChance", "Desperation", "Regression", "Timer", "WetPanties", "MessPanties", "WetChastity", "MessChastity"];
+            let caughtArguments = {};
+            while (commandArguments.includes(chatCommand[chatCommand.length-1]))
+            {
+                let tempVal = chatCommand.pop();
+                switch (tempVal)
+                {
+                    case commandArguments[0]:
+                        caughtArguments.wetChance = (isNaN(chatCommand[chatCommand.length-1])) ? diaperDefaultValues.wetChance : chatCommand[chatCommand.length-1];
+                        break;
+                    case commandArguments[1]:
+                        caughtArguments.messChance = (isNaN(chatCommand[chatCommand.length-1])) ? diaperDefaultValues.messChance : chatCommand[chatCommand.length-1];
+                        break;
+                    case commandArguments[2]:
+                        caughtArguments.desperationLevel = (isNaN(chatCommand[chatCommand.length-1])) ? diaperDefaultValues.desperationLevel : chatCommand[chatCommand.length-1];
+                        break;
+                    case commandArguments[3]:
+                        caughtArguments.regressionLevel = (isNaN(chatCommand[chatCommand.length-1])) ? diaperDefaultValues.regressionLevel : chatCommand[chatCommand.length-1];
+                        break;
+                    case commandArguments[4]:
+                        caughtArguments.baseTimer = (isNaN(chatCommand[chatCommand.length-1])) ? diaperDefaultValues.baseTimer : chatCommand[chatCommand.length-1];
+                        break;
+                    case commandArguments[5]:
+                        caughtArguments.wetLevelInner = (isNaN(chatCommand[chatCommand.length-1])) ? diaperDefaultValues.wetLevelInner : chatCommand[chatCommand.length-1];
+                        break;
+                    case commandArguments[6]:
+                        caughtArguments.messLevelInner = (isNaN(chatCommand[chatCommand.length-1])) ? diaperDefaultValues.messLevelInner : chatCommand[chatCommand.length-1];
+                        break;
+                    case commandArguments[7]:
+                        caughtArguments.wetLevelOuter = (isNaN(chatCommand[chatCommand.length-1])) ? diaperDefaultValues.wetLevelOuter : chatCommand[chatCommand.length-1];
+                        break;
+                    case commandArguments[8]:
+                        caughtArguments.messLevelOuter = (isNaN(chatCommand[chatCommand.length-1])) ? diaperDefaultValues.messLevelOuter : chatCommand[chatCommand.length-1];
+                        break;
+                }
+                chatCommand.pop();
+            }
+
+            console.log(caughtArguments);
+            diaperWetter(caughtArguments);
+        }
+
+        // End the script
+        else if (chatCommand[chatCommand.length-1] === "stop")
+        {
+            stopWetting();
+        }
+    }
+
+    // If the user is called out
+    else if (data.startsWith(toString(Player.MemberNumber)))
+    {
+        // Clip off the memeber number
+        data = data.substring(toString(Player.MemberNumber).length + 1, data.length);
+
+        if (data.startsWith("change"))
+        {
+            if (data.substring(7, data.length).startsWith("inner"))
+            {
+                refreshDiaper("panites");
+            }
+            else if (data.substring(7, data.length).startsWith("outer"))
+            {
+                refreshDiaper("chastity");
+            }
+            else
+            {
+                refreshDiaper();
+            }
         }
     }
 }
 
 // Initializer function
-function diaperWetter()
+function diaperWetter( args =
+    {
+        messChance: diaperDefaultValues.messChance,
+        wetChance: diaperDefaultValues.wetChance,
+        baseTimer: diaperDefaultValues.baseTimer,
+        regressionLevel: diaperDefaultValues.regressionLevel,
+        desperationLevel: diaperDefaultValues.desperationLevel,
+        messLevelInner: diaperDefaultValues.messLevelInner,
+        wetLevelInner: diaperDefaultValues.wetLevelInner,
+        messLevelOuter: diaperDefaultValues.messLevelOuter,
+        wetLevelOuter: diaperDefaultValues.wetLevelOuter
+    }
+)
 {
+    // Greating message
     ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: "Say hello to the little baby " + Player.Name + "!"}]});
+
     // Initial clear. Only time "both" should be used for refreshDiaper.
-    refreshDiaper("both");
-    messThreshold = .7;             // 1-chance to mess
-    wetThreshold = .5;              // 1-chance to wet
-    diaperTimerBase = 30;           // The default amount of time between ticks in minutes
-    regressionLevel = 0;            // Used for tracking how much the user has regressed (affects the timer)
-    desperationLevel = 0;
+    refreshDiaper(
+    {
+        _diaper: "both",
+        _wetLevelChastity: (args.wetLevelOuter < 0 || args.wetLevelOuter > 2) ? diaperDefaultValues.wetLevelOuter : (args.wetLevelOuter > args.messLevelOuter) ? args.wetLevelOuter : args.messLevelOuter,
+        _messLevelChastity: (args.messLevelOuter < 0 || args.messLevelOuter > 2) ? diaperDefaultValues.messLevelOuter : args.messLevelOuter,
+        _wetLevelPanties: (args.wetLevelInner < 0 || args.wetLevelInner > 2) ? diaperDefaultValues.wetLevelInner : (args.wetLevelInner > args.messLevelInner) ? args.wetLevelInner : args.messLevelInner,
+        _messLevelPanties: (args.messLevelInner < 0 || args.messLevelInner > 2) ? diaperDefaultValues.messLevelInner : args.messLevelInner
+    });
+
+    messChance = args.messChance;
+    wetChance = args.wetChance;
+    diaperTimerBase = args.baseTimer;   // The default amount of time between ticks in minutes
+    regressionLevel = args.regressionLevel;// Used for tracking how much the user has regressed (affects the timer)
+    desperationLevel = args.desperationLevel;// Used for tracking how recently a milk bottle has been used (affects the timer)
+    
 
     // Handle modifiers
     var diaperTimerModifier = 1;    // We will divide by the modifier (positive modifiers decrease the timer)
@@ -109,14 +237,22 @@ function changeDiaperTimer(delay)
 }
 
 // Refresh the diaper settings so wet and mess levels are 0. Pass "chastity", "panties", or "both" so only the correct diaper gets reset.
-function refreshDiaper(diaper = "both")
-{
-    if (diaper === "both")
+function refreshDiaper({_diaper, _wetLevelPanties, _messLevelPanties, _wetLevelChastity, _messLevelChastity} =
     {
-        MessLevelPanties = 0;
-        WetLevelPanties = 0;
-        MessLevelChastity = 0;
-        WetLevelChastity = 0;
+        _diaper: "both",
+        _wetLevelPanties: diaperDefaultValues.wetLevelInner,
+        _messLevelPanties: diaperDefaultValues.messLevelInner,
+        _wetLevelChastity: diaperDefaultValues.wetLevelOuter,
+        _messLevelChastity: diaperDefaultValues.messLevelOuter,
+    }
+)
+{
+    if (_diaper === "both")
+    {
+        MessLevelPanties = _messLevelPanties;
+        WetLevelPanties = _wetLevelPanties;
+        MessLevelChastity = _messLevelChastity;
+        WetLevelChastity = _wetLevelChastity;
         changeDiaperColor("ItemPelvis");
         changeDiaperColor("Panties");
         if (checkForDiaper("Panties") && checkForDiaper("ItemPelvis"))
@@ -128,10 +264,10 @@ function refreshDiaper(diaper = "both")
             ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + DiaperUseMessages["ChangeDiaperOnly"]}]});
         }
     }
-    else if (diaper === "chastity")
+    else if (_diaper === "chastity")
     {
-        MessLevelChastity = 0;
-        WetLevelChastity = 0;
+        MessLevelChastity = _messLevelChastity;
+        WetLevelChastity = _wetLevelChastity;
         changeDiaperColor("ItemPelvis");
         if (checkForDiaper("ItemPelvis") && checkForDiaper("Panties"))
         {
@@ -142,10 +278,10 @@ function refreshDiaper(diaper = "both")
             ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + DiaperUseMessages["ChangeDiaperOnly"]}]});
         }
     }
-    else if (diaper === "panties")
+    else if (_diaper === "panties")
     {
-        MessLevelPanties = 0;
-        WetLevelPanties = 0;
+        MessLevelPanties = _messLevelPanties;
+        WetLevelPanties = _wetLevelPanties;
         changeDiaperColor("Panties");
         if (checkForDiaper("ItemPelvis") && checkForDiaper("Panties"))
         {
@@ -179,7 +315,7 @@ function checkForMilk()
 // Handles the regression counter
 function manageRegression(diaperTimerModifier = 1)
 {
-    if (checkForNurseryMilk() && regressionLevel < 6)
+    if (checkForNurseryMilk() && regressionLevel < 3)
     {
         regressionLevel++;
     }
@@ -249,7 +385,10 @@ function changeDiaperColor(slot)
 // Command to stop the script from running
 function stopWetting()
 {
+    console.log("See you next time!");
     diaperRunning = false;
+    clearTimeout(diaperLoop);
+    checkTick();
 }
 
 // Funcky while loop
@@ -259,10 +398,15 @@ function checkTick()
     if((checkForDiaper("ItemPelvis") || checkForDiaper("Panties")) && diaperRunning === true)
     {
         // Wait for a bit
-        setTimeout(checkTick, diaperTimer*60*1000);
+        diaperLoop = setTimeout(checkTick, diaperTimer*60*1000);
         // Go to main logic
         diaperTick();
-    } 
+    }
+    else
+    {
+        diaperRunning = false;
+        ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: "Awww, " + Player.Name + " is all grown up!"}]});
+    }
 }
 
 // Body function
@@ -277,7 +421,7 @@ function diaperTick()
 
     testMess = Math.random();
     // If the baby messes, increment the mess level to a max of 2 and make sure that the wet level is at least as high as the mess level.
-    if (testMess > messThreshold)
+    if (testMess > 1-messChance)
     {
         if (MessLevelPanties === 2 || !checkForDiaper("Panties"))
         {
@@ -320,7 +464,7 @@ function diaperTick()
         }
     }
     // If the baby only wets, increment the wet level to a max of 2.
-    else if (testMess > wetThreshold)
+    else if (testMess > 1-wetChance)
     {
         if (WetLevelPanties == 2 && (InventoryGet(Player, "Panties") !== "PoofyDiaper" && InventoryGet(Player, "Panties") !== "BulkyDiaper"))
         {
