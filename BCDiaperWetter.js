@@ -108,7 +108,7 @@ function bcdwCommands(chatCommand, callerID)
 
             // Parse arguments for command
             let commandArguments = ["WetChance", "MessChance", "Desperation", "Regression", "Timer", "WetPanties", "MessPanties", "WetChastity", "MessChastity"];
-            let caughtArguments = {};
+            let caughtArguments = diaperDefaultValues;
             while (commandArguments.includes(chatCommand[chatCommand.length-1]))
             {
                 let tempVal = chatCommand.pop();
@@ -155,29 +155,6 @@ function bcdwCommands(chatCommand, callerID)
             stopWetting();
         }
     }
-
-    // If the user is called out
-    else if (data.startsWith(toString(Player.MemberNumber)))
-    {
-        // Clip off the memeber number
-        data = data.substring(toString(Player.MemberNumber).length + 1, data.length);
-
-        if (data.startsWith("change"))
-        {
-            if (data.substring(7, data.length).startsWith("inner"))
-            {
-                refreshDiaper("panites");
-            }
-            else if (data.substring(7, data.length).startsWith("outer"))
-            {
-                refreshDiaper("chastity");
-            }
-            else
-            {
-                refreshDiaper();
-            }
-        }
-    }
 }
 
 // Initializer function
@@ -199,15 +176,15 @@ function diaperWetter( args =
     ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: "Say hello to the little baby " + Player.Name + "!"}]});
 
     // Initial clear. Only time "both" should be used for refreshDiaper.
+
     refreshDiaper(
     {
-        _diaper: "both",
-        _wetLevelChastity: (args.wetLevelOuter < 0 || args.wetLevelOuter > 2) ? diaperDefaultValues.wetLevelOuter : (args.wetLevelOuter > args.messLevelOuter) ? args.wetLevelOuter : args.messLevelOuter,
-        _messLevelChastity: (args.messLevelOuter < 0 || args.messLevelOuter > 2) ? diaperDefaultValues.messLevelOuter : args.messLevelOuter,
-        _wetLevelPanties: (args.wetLevelInner < 0 || args.wetLevelInner > 2) ? diaperDefaultValues.wetLevelInner : (args.wetLevelInner > args.messLevelInner) ? args.wetLevelInner : args.messLevelInner,
-        _messLevelPanties: (args.messLevelInner < 0 || args.messLevelInner > 2) ? diaperDefaultValues.messLevelInner : args.messLevelInner
+        diaper: "both",
+        messLevelChastity: (isNaN(args.messLevelOuter) || (args.messLevelOuter < 0 || args.messLevelOuter > 2)) ? diaperDefaultValues.messLevelOuter : args.messLevelOuter,
+        wetLevelChastity: (isNaN(args.wetLevelOuter) || (args.wetLevelOuter < 0 || args.wetLevelOuter > 2)) ? (isNaN(args.messLevelOuter) || (args.messLevelOuter < 0 || args.messLevelOuter > 2)) ? diaperDefaultValues.messLevelOuter : args.messLevelOuter : (args.wetLevelOuter > args.messLevelOuter) ? args.wetLevelOuter : args.messLevelOuter,
+        messLevelPanties: (isNaN(args.messLevelInner) || (args.messLevelInner < 0 || args.messLevelInner > 2)) ? diaperDefaultValues.messLevelInner : args.messLevelInner,
+        wetLevelPanties: (isNaN(args.wetLevelInner) || (args.wetLevelInner < 0 || args.wetLevelInner > 2)) ? (isNaN(args.messLevelInner) || (args.messLevelInner < 0 || args.messLevelInner > 2)) ? diaperDefaultValues.messLevelInner : args.messLevelOuter : (args.wetLevelInner > args.messLevelInner) ? args.wetLevelInner : args.messLevelInner
     });
-
     messChance = args.messChance;
     wetChance = args.wetChance;
     diaperTimerBase = args.baseTimer;   // The default amount of time between ticks in minutes
@@ -237,22 +214,26 @@ function changeDiaperTimer(delay)
 }
 
 // Refresh the diaper settings so wet and mess levels are 0. Pass "chastity", "panties", or "both" so only the correct diaper gets reset.
-function refreshDiaper({_diaper, _wetLevelPanties, _messLevelPanties, _wetLevelChastity, _messLevelChastity} =
+function refreshDiaper(args =
     {
-        _diaper: "both",
-        _wetLevelPanties: diaperDefaultValues.wetLevelInner,
-        _messLevelPanties: diaperDefaultValues.messLevelInner,
-        _wetLevelChastity: diaperDefaultValues.wetLevelOuter,
-        _messLevelChastity: diaperDefaultValues.messLevelOuter,
+        diaper: "both",
+        wetLevelPanties: diaperDefaultValues.wetLevelInner,
+        messLevelPanties: diaperDefaultValues.messLevelInner,
+        wetLevelChastity: diaperDefaultValues.wetLevelOuter,
+        messLevelChastity: diaperDefaultValues.messLevelOuter,
     }
 )
 {
-    if (_diaper === "both")
+    if (args.diaper === "both")
     {
-        MessLevelPanties = _messLevelPanties;
-        WetLevelPanties = _wetLevelPanties;
-        MessLevelChastity = _messLevelChastity;
-        WetLevelChastity = _wetLevelChastity;
+        console.log(args.wetLevelPanties);
+        console.log(args.messLevelPanties);
+        console.log(args.wetLevelChastity);
+        console.log(args.messLevelChastity);
+        MessLevelPanties = args.messLevelPanties;
+        WetLevelPanties = args.wetLevelPanties;
+        MessLevelChastity = args.messLevelChastity;
+        WetLevelChastity = args.wetLevelChastity;
         changeDiaperColor("ItemPelvis");
         changeDiaperColor("Panties");
         if (checkForDiaper("Panties") && checkForDiaper("ItemPelvis"))
@@ -264,10 +245,10 @@ function refreshDiaper({_diaper, _wetLevelPanties, _messLevelPanties, _wetLevelC
             ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + DiaperUseMessages["ChangeDiaperOnly"]}]});
         }
     }
-    else if (_diaper === "chastity")
+    else if (args.diaper === "chastity")
     {
-        MessLevelChastity = _messLevelChastity;
-        WetLevelChastity = _wetLevelChastity;
+        MessLevelChastity = args.messLevelChastity;
+        WetLevelChastity = args.wetLevelChastity;
         changeDiaperColor("ItemPelvis");
         if (checkForDiaper("ItemPelvis") && checkForDiaper("Panties"))
         {
@@ -278,10 +259,10 @@ function refreshDiaper({_diaper, _wetLevelPanties, _messLevelPanties, _wetLevelC
             ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + DiaperUseMessages["ChangeDiaperOnly"]}]});
         }
     }
-    else if (_diaper === "panties")
+    else if (args.diaper === "panties")
     {
-        MessLevelPanties = _messLevelPanties;
-        WetLevelPanties = _wetLevelPanties;
+        MessLevelPanties = args.messLevelPanties;
+        WetLevelPanties = args.wetLevelPanties;
         changeDiaperColor("Panties");
         if (checkForDiaper("ItemPelvis") && checkForDiaper("Panties"))
         {
