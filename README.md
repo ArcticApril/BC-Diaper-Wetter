@@ -1,9 +1,10 @@
 # BC-Diaper-Wetter
 A simply script that automatically wets the users diaper so long as one is worn (both chastity and clothes versions)
 
-# How to use
-To use, open up the developer console of your browser (for example in Chrome, press F12 or right click then select Inspect Element, then go to the "Console" tab) and copy the text from the BCDiaperWet.js file into the console, then press enter. If you are not also running the BCX mod, you may have to do this with the bcmodsdk.js file first.
-Once you have done that, wear either a poofy or bulky diaper (either the panties or chastity version, or both if you want more potential uses!) and type `->diaper start` in chat. Once you're done using it, type `->diaper stop` to become contienent again.
+
+## How to use
+To download, [either add this to your bookmarks and open it when you open the game](https://mrbakucamp.github.io/BC-Diaper-Wetter/bcdw-loader-bookmark.js) or [add this](https://mrbakucamp.github.io/BC-Diaper-Wetter/bcdw-loader-tampermonkey.js) as a [Tampermonkey](https://www.tampermonkey.net/) script.
+Once you have done that, wear either a poofy or bulky diaper (either the panties or chastity version, or both if you want more potential uses!) and run diaperWetter() in the console to start the script running.
 
 ## Aditional usage tips
 `->diaper start` has several arguments! Here they are listed!
