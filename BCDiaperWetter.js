@@ -75,7 +75,8 @@ function bcdwonload()
 ServerSocket.on("ChatRoomMessage", bcdw);
 function bcdw(data)
 {
-    console.log("BCDW caught message " + data);
+    console.log("BCDW caught message");
+    console.log(data);
     // First, make sure there's actually something to read
     if (data)
     {
@@ -111,7 +112,8 @@ function bcdw(data)
 // Command handler
 function bcdwCommands(chatCommand, callerID, type)
 {
-    console.log("BCDW caught command " + chatCommand);
+    console.log("BCDW caught command");
+    console.log(data);
     // Commands only the user can use
     if (callerID === Player.MemberNumber)
     {
