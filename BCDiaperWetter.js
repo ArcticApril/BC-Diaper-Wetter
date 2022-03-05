@@ -114,7 +114,7 @@ function bcdw(data)
 function bcdwCommands(chatCommand, callerID, type)
 {
     console.log("BCDW caught command");
-    console.log(data);
+    console.log(chatCommand);
     // Commands only the user can use
     if (callerID === Player.MemberNumber)
     {
