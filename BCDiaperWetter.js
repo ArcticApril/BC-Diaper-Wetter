@@ -70,6 +70,7 @@ function bcdwonload()
 {
     console.log("Welcome to BCDW! To start execution, type ->diaper start in chat. More information can be found at https://mrbakucamp.github.io/BC-Diaper-Wetter/");
 }
+bcdwonload();
 
 // Chat handeler
 ServerSocket.on("ChatRoomMessage", bcdw);
