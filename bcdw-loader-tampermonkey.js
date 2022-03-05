@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BC Diaper Wetter
 // @namespace    https://www.bondageprojects.com/
-// @version      0.0.5
+// @version      0.1.1
 // @description  A simple script that will automatically make a baby use their diaper
 // @author       Arctic Line
 // @match https://bondageprojects.elementfx.com/*
