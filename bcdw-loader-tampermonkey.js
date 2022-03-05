@@ -21,6 +21,6 @@
     n.setAttribute("language", "JavaScript");
     n.setAttribute("crossorigin", "anonymous");
     n.setAttribute("src", "https://mrbakucamp.github.io/BC-Diaper-Wetter/BCDiaperWetter.js?_=" + Date.now());
-    n.onload();
+    n.onload = () => n.remove();
     document.head.appendChild(n);
 })();
