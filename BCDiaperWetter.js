@@ -65,10 +65,17 @@ function destutter(string)
   return string;
 }
 
+// Debug: just prints out if the script is loaded
+function onload()
+{
+    console.log("Welcome to BCDW! To start execution, type ->diaper start in chat. More information can be found at https://mrbakucamp.github.io/BC-Diaper-Wetter/");
+}
+
 // Chat handeler
 ServerSocket.on("ChatRoomMessage", bcdw);
 function bcdw(data)
 {
+    console.log("BCDW caught message " + data);
     // First, make sure there's actually something to read
     if (data)
     {
@@ -104,6 +111,7 @@ function bcdw(data)
 // Command handler
 function bcdwCommands(chatCommand, callerID, type)
 {
+    console.log("BCDW caught command " + chatCommand);
     // Commands only the user can use
     if (callerID === Player.MemberNumber)
     {
