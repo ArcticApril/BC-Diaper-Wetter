@@ -14,13 +14,16 @@
 // @run-at document-end
 // ==/UserScript==
 
-(function() {
-    'use strict';
+setTimeout(
+    function() {
+        'use strict';
 
-    let n = document.createElement("script");
-    n.setAttribute("language", "JavaScript");
-    n.setAttribute("crossorigin", "anonymous");
-    n.setAttribute("src", "https://mrbakucamp.github.io/BC-Diaper-Wetter/BCDiaperWetter.js?_=" + Date.now());
-    n.onload = () => n.remove();
-    document.head.appendChild(n);
-})();
+        let n = document.createElement("script");
+        n.setAttribute("language", "JavaScript");
+        n.setAttribute("crossorigin", "anonymous");
+        n.setAttribute("src", "https://mrbakucamp.github.io/BC-Diaper-Wetter/BCDiaperWetter.js?_=" + Date.now());
+        n.onload = () => n.remove();
+        document.head.appendChild(n);
+    },
+    2000
+);
