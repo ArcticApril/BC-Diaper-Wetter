@@ -47,7 +47,4 @@ Promise.all(promises).then(function()
 })
 })();
 
-if (bcdwonload)
-{
-    bcdwonload();
-}
+bcdwonload();
