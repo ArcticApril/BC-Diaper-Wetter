@@ -54,7 +54,7 @@ while (!bcdwIsLoaded)
     {
         bcdwonload();
     }
-    catch
+    catch(error)
     {
         continue;
     }
