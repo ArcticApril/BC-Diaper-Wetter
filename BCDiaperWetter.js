@@ -73,7 +73,7 @@ function bcdwonload()
 bcdwonload();
 
 // Chat handeler
-ServerSocket.on("ChatRoomMessage", bcdw);
+ServerSocket?.on("ChatRoomMessage", bcdw);
 function bcdw(data)
 {
     console.log("BCDW caught message");
