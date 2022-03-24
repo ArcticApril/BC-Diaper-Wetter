@@ -63,3 +63,4 @@ function bcdwWaitForLoad()
         bcdwonload();
     }
 }
+bcdwWaitForLoad();
