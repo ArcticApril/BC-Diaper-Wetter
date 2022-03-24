@@ -47,4 +47,16 @@ Promise.all(promises).then(function()
 })
 })();
 
-bcdwonload();
+var bcdwIsLoaded = false;
+while (!bcdwIsLoaded)
+{
+    try
+    {
+        bcdwonload();
+    }
+    catch
+    {
+        continue;
+    }
+    bcdwIsLoaded = true;
+}
