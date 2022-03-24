@@ -1,9 +1,13 @@
 import * as BCDW from './bcdw-tables.js'
 
-
-
 var diaperLoop = null;         // Keeps a hold of the loop so it can be exited at any time easily
 ServerSocket?.on("ChatRoomMessage", bcdw);
+var messChance;
+var wetChance;
+var diaperTimerBase;
+var regressionLevel;
+var desperationLevel;
+var diaperTimerModifier;
 
 // Destutter speach. Needed for interations with other mods
 function destutter(string)
@@ -46,7 +50,7 @@ function bcdw(data)
         )
         {
             // Parse out data into a queue for easier processing
-            chatCommand = data?.Content.toLowerCase().split(" ");
+            let chatCommand = data?.Content.toLowerCase().split(" ");
             chatCommand.shift();
 
             // Send to command parser
@@ -254,7 +258,7 @@ function diaperWetter(
     
 
     // Handle modifiers
-    var diaperTimerModifier = 1;    // We will divide by the modifier (positive modifiers decrease the timer)
+    diaperTimerModifier = 1;    // We will divide by the modifier (positive modifiers decrease the timer)
     diaperTimerModifier = manageRegression(diaperTimerModifier);
     diaperTimerModifier = manageDesperation(diaperTimerModifier);
     diaperTimer = diaperTimerBase / diaperTimerModifier;
