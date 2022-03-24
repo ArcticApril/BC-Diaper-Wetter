@@ -1,5 +1,5 @@
 // A simple table for the colors that the script will use.
-DiaperUseLevels = 
+var DiaperUseLevels = 
 [
     ["#808080", "#97916A", "#8B8D41"],
     ["#877C6C", "#7E774E"],
@@ -7,7 +7,7 @@ DiaperUseLevels =
 ];
 
 // Use messages table. Brought out here so it could be modified later in the GUI.
-DiaperUseMessages =
+const DiaperUseMessages =
 {
     "MessInner": " has messed her inner diaper.",
     "MessInnerFully": " has fully messed her inner diaper.",
