@@ -1,4 +1,4 @@
-import * as BCDW from './bcdw-tables'
+import * as BCDW from './bcdw-tables.js'
 
 diaperLoop = null;         // Keeps a hold of the loop so it can be exited at any time easily
 
