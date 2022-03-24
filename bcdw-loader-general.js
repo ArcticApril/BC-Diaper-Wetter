@@ -41,9 +41,13 @@ console.log("Welcome to BCDW! To learn how to use the script, type ->diaper help
 Promise.all(promises).then(function()
 {
     console.log("BCDW: All components loaded. You're ready to go (use your diaper)!");
-    bcdwonload();
 }).catch(function(script)
 {
     console.log("BCDW: " + script + " failed to load.");
 })
 })();
+
+if (bcdwonload)
+{
+    bcdwonload();
+}
