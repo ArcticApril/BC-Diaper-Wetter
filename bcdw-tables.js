@@ -1,5 +1,3 @@
-export { DiaperUseLevels, DiaperUseMessages, diaperDefaultValues, diaperHelpMessages};
-
 // A simple table for the colors that the script will use.
 DiaperUseLevels = 
 [
@@ -49,3 +47,5 @@ const diaperHelpMessages = {
     change: "->diaper change can be used to give you or someone else a fresh diaper. To only change one diaper, add chastity or panties to the end to describe which you want to change. To change someone else, either whisper the command to them, or add their member number to the end of the command.",
     stop: "->diaper stop will instantly stop the script running. The same thing will happen if you go without a diaper for a period of time."
 };
+
+export { DiaperUseLevels, DiaperUseMessages, diaperDefaultValues, diaperHelpMessages};

@@ -1,10 +1,15 @@
+(function() {
+    'use strict';
+
 function loadComponent(url)
 {
     return new Promise(function(resolve, reject)
     {
-        let script = script = document.createElement('script');
-        scriptsetAttribute("language", "JavaScript");
+    console.log("Loading " + url);
+        let script = document.createElement('script');
+        script.setAttribute("language", "JavaScript");
         script.setAttribute("crossorigin", "anonymous");
+        script.setAttribute("type", "module");
         script.src = url;
         script.async = false;
         script.onload = function()
@@ -15,17 +20,18 @@ function loadComponent(url)
             reject(url);
         }
         document.body.appendChild(script);
+        console.log("Loaded " + url);
     })
 }
 
-let scripts = 
+let scripts =
 [
     "https://mrbakucamp.github.io/BC-Diaper-Wetter/BCDiaperWetter.js",
     "https://mrbakucamp.github.io/BC-Diaper-Wetter/bcdw-tables.js"
 ]
 
 let promises = [];
-scripts.forEach(function(url) 
+scripts.forEach(function(url)
 {
     promises.push(loadComponent(url));
 });
@@ -39,3 +45,4 @@ Promise.all(promises).then(function()
 {
     console.log("BCDW: " + script + " failed to load.");
 })
+})();
