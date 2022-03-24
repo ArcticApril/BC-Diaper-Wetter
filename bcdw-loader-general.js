@@ -3,6 +3,8 @@ function loadComponent(url)
     return new Promise(function(resolve, reject)
     {
         let script = script = document.createElement('script');
+        scriptsetAttribute("language", "JavaScript");
+        script.setAttribute("crossorigin", "anonymous");
         script.src = url;
         script.async = false;
         script.onload = function()
