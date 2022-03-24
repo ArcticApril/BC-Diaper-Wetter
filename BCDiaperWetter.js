@@ -1,6 +1,11 @@
 import * as BCDW from './bcdw-tables.js'
 
-var diaperLoop = null;         // Keeps a hold of the loop so it can be exited at any time easily
+
+function bcdwonload()
+{
+    var diaperLoop = null;         // Keeps a hold of the loop so it can be exited at any time easily
+    ServerSocket?.on("ChatRoomMessage", bcdw);
+}
 
 // Destutter speach. Needed for interations with other mods
 function destutter(string)
@@ -18,7 +23,6 @@ function destutter(string)
 }
 
 // Chat handeler
-ServerSocket?.on("ChatRoomMessage", bcdw);
 function bcdw(data)
 {
     // First, make sure there's actually something to read
