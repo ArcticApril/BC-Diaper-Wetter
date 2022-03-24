@@ -54,10 +54,12 @@ function bcdwWaitForLoad()
 {
     if (!bcdwIsLoaded)
     {
+        console.log("BCDW: Waiting to load.");
         setTimeout(bcdwWaitForLoad, 500);
     }
     else
     {
+        console.log("BCDW: Script armed!");
         bcdwonload();
     }
 }
