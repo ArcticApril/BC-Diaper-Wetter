@@ -21,7 +21,7 @@ setTimeout(
         let n = document.createElement("script");
         n.setAttribute("language", "JavaScript");
         n.setAttribute("crossorigin", "anonymous");
-        n.setAttribute("src", "https://mrbakucamp.github.io/BC-Diaper-Wetter/BCDiaperWetter.js?_=" + Date.now());
+        n.setAttribute("src", "https://mrbakucamp.github.io/BC-Diaper-Wetter/bcdw-load-general.js?_=" + Date.now());
         n.onload = () => n.remove();
         document.head.appendChild(n);
     },
