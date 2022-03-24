@@ -1,6 +1,6 @@
 import * as BCDW from './bcdw-tables.js'
 
-diaperLoop = null;         // Keeps a hold of the loop so it can be exited at any time easily
+var diaperLoop = null;         // Keeps a hold of the loop so it can be exited at any time easily
 
 // Destutter speach. Needed for interations with other mods
 function destutter(string)
