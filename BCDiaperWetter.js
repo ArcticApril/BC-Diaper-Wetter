@@ -7,6 +7,7 @@ function bcdwonload()
     var diaperLoop = null;         // Keeps a hold of the loop so it can be exited at any time easily
     ServerSocket?.on("ChatRoomMessage", bcdw);
 }
+bcdwonload();
 
 // Destutter speach. Needed for interations with other mods
 function destutter(string)

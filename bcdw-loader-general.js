@@ -11,7 +11,10 @@ function loadComponent(url)
         script.setAttribute("crossorigin", "anonymous");
         script.setAttribute("type", "module");
         script.src = url;
-        script.async = false;
+        if (!url.includes("BCDiaperWetter.js"))
+        {
+            script.async = false;
+        }
         script.onload = function()
         {
             resolve(url);
@@ -38,29 +41,11 @@ scripts.forEach(function(url)
 
 console.log("Welcome to BCDW! To learn how to use the script, type ->diaper help in chat. More information can be found at https://mrbakucamp.github.io/BC-Diaper-Wetter/");
 
-var bcdwIsLoaded = false;
 Promise.all(promises).then(function()
 {
     console.log("BCDW: All components loaded. You're ready to go (use your diaper)!");
-    bcdwIsLoaded = true;
 }).catch(function(script)
 {
     console.log("BCDW: " + script + " failed to load.");
 })
 })();
-
-// Start the script running once everything is loaded
-function bcdwWaitForLoad()
-{
-    if (!bcdwIsLoaded)
-    {
-        console.log("BCDW: Waiting to load.");
-        setTimeout(bcdwWaitForLoad, 500);
-    }
-    else
-    {
-        console.log("BCDW: Script armed!");
-        bcdwonload();
-    }
-}
-bcdwWaitForLoad();
