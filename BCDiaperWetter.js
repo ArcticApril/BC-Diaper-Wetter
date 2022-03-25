@@ -1,11 +1,23 @@
 var diaperLoop = null;         // Keeps a hold of the loop so it can be exited at any time easily
-ServerSocket?.on("ChatRoomMessage", bcdw);
 var messChance;
 var wetChance;
 var diaperTimerBase;
 var regressionLevel;
 var desperationLevel;
 var diaperTimerModifier;
+
+// Start listening for chat inputs
+function bcdwStartListening()
+{
+    try
+    {
+        ServerSocket?.on("ChatRoomMessage", bcdw);
+    }
+    catch(error)
+    {
+        setTimeout(bcdwStartListening, 500);
+    }
+}
 
 // Destutter speach. Needed for interations with other mods
 function destutter(string)
