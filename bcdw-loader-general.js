@@ -25,7 +25,10 @@ function loadComponent(url)
 let scripts =
 [
     "https://mrbakucamp.github.io/BC-Diaper-Wetter/BCDiaperWetter.js",
-    "https://mrbakucamp.github.io/BC-Diaper-Wetter/bcdw-tables.js"
+    "https://mrbakucamp.github.io/BC-Diaper-Wetter/bcdw-tables.js",
+    "https://mrbakucamp.github.io/BC-Diaper-Wetter/changelog.js",
+    "https://mrbakucamp.github.io/BC-Diaper-Wetter/chathandler.js",
+    "https://mrbakucamp.github.io/BC-Diaper-Wetter/modifers.js"
 ]
 
 let promises = [];
@@ -39,6 +42,7 @@ console.log("Welcome to BCDW! To learn how to use the script, type ->diaper help
 Promise.all(promises).then(function()
 {
     console.log("BCDW: All components loaded. You're ready to go (use your diaper)!");
+    bcdwStartListening();
 }).catch(function(script)
 {
     console.log("BCDW: " + script + " failed to load.");

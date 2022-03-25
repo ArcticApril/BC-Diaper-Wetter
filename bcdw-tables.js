@@ -1,6 +1,19 @@
 // Namespacing
 var BCDWVari =
 {
+    diaperLoop: null,
+    messChance: .3,
+    wetChance: .2,
+    diaperTimerBase: 30,
+    regressionLevel: 0,
+    desperationLevel: 0,
+    diaperTimerModifier: 1,
+    diaperRunning: false,
+    MessLevelPanties: 0,
+    WetLevelPanties: 0,
+    MessLevelChastity: 0,
+    WetLevelChastity: 0,
+
     // A simple table for the colors that the script will use.
     DiaperUseLevels:
     [
