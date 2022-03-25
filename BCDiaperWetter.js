@@ -1,7 +1,3 @@
-import * as BCDW from './bcdw-tables.js'
-
-console.log("BCDW: All components loaded. You're ready to go (use your diaper)!");
-
 var diaperLoop = null;         // Keeps a hold of the loop so it can be exited at any time easily
 ServerSocket?.on("ChatRoomMessage", bcdw);
 var messChance;
@@ -77,38 +73,38 @@ function bcdwCommands(chatCommand, callerID, type)
 
             // Parse arguments for command
             let commandArguments = ["wetchance", "messchance", "desperation", "regression", "timer", "wetpanties", "messpanties", "wetchastity", "messchastity"];
-            let caughtArguments = BCDW.diaperDefaultValues;
+            let caughtArguments = BCDWCONST.diaperDefaultValues;
             while (commandArguments.includes(chatCommand[chatCommand.length-1]))
             {
                 let tempVal = chatCommand.pop();
                 switch (tempVal)
                 {
                     case commandArguments[0]:
-                        caughtArguments.initWetChance = (isNaN(chatCommand[chatCommand.length-1])) ? BCDW.diaperDefaultValues.wetChance : chatCommand[chatCommand.length-1];
+                        caughtArguments.initWetChance = (isNaN(chatCommand[chatCommand.length-1])) ? BCDWCONST.diaperDefaultValues.wetChance : chatCommand[chatCommand.length-1];
                         break;
                     case commandArguments[1]:
-                        caughtArguments.initMessChance = (isNaN(chatCommand[chatCommand.length-1])) ? BCDW.diaperDefaultValues.messChance : chatCommand[chatCommand.length-1];
+                        caughtArguments.initMessChance = (isNaN(chatCommand[chatCommand.length-1])) ? BCDWCONST.diaperDefaultValues.messChance : chatCommand[chatCommand.length-1];
                         break;
                     case commandArguments[2]:
-                        caughtArguments.initDesperationLevel = (isNaN(chatCommand[chatCommand.length-1])) ? BCDW.diaperDefaultValues.desperationLevel : chatCommand[chatCommand.length-1];
+                        caughtArguments.initDesperationLevel = (isNaN(chatCommand[chatCommand.length-1])) ? BCDWCONST.diaperDefaultValues.desperationLevel : chatCommand[chatCommand.length-1];
                         break;
                     case commandArguments[3]:
-                        caughtArguments.initRegressionLevel = (isNaN(chatCommand[chatCommand.length-1])) ? BCDW.diaperDefaultValues.regressionLevel : chatCommand[chatCommand.length-1];
+                        caughtArguments.initRegressionLevel = (isNaN(chatCommand[chatCommand.length-1])) ? BCDWCONST.diaperDefaultValues.regressionLevel : chatCommand[chatCommand.length-1];
                         break;
                     case commandArguments[4]:
-                        caughtArguments.baseTimer = (isNaN(chatCommand[chatCommand.length-1])) ? BCDW.diaperDefaultValues.baseTimer : chatCommand[chatCommand.length-1];
+                        caughtArguments.baseTimer = (isNaN(chatCommand[chatCommand.length-1])) ? BCDWCONST.diaperDefaultValues.baseTimer : chatCommand[chatCommand.length-1];
                         break;
                     case commandArguments[5]:
-                        caughtArguments.initWetLevelInner = (isNaN(chatCommand[chatCommand.length-1])) ? BCDW.diaperDefaultValues.wetLevelInner : chatCommand[chatCommand.length-1];
+                        caughtArguments.initWetLevelInner = (isNaN(chatCommand[chatCommand.length-1])) ? BCDWCONST.diaperDefaultValues.wetLevelInner : chatCommand[chatCommand.length-1];
                         break;
                     case commandArguments[6]:
-                        caughtArguments.initMessLevelInner = (isNaN(chatCommand[chatCommand.length-1])) ? BCDW.diaperDefaultValues.messLevelInner : chatCommand[chatCommand.length-1];
+                        caughtArguments.initMessLevelInner = (isNaN(chatCommand[chatCommand.length-1])) ? BCDWCONST.diaperDefaultValues.messLevelInner : chatCommand[chatCommand.length-1];
                         break;
                     case commandArguments[7]:
-                        caughtArguments.initWetLevelOuter = (isNaN(chatCommand[chatCommand.length-1])) ? BCDW.diaperDefaultValues.wetLevelOuter : chatCommand[chatCommand.length-1];
+                        caughtArguments.initWetLevelOuter = (isNaN(chatCommand[chatCommand.length-1])) ? BCDWCONST.diaperDefaultValues.wetLevelOuter : chatCommand[chatCommand.length-1];
                         break;
                     case commandArguments[8]:
-                        caughtArguments.initMessLevelOuter = (isNaN(chatCommand[chatCommand.length-1])) ? BCDW.diaperDefaultValues.messLevelOuter : chatCommand[chatCommand.length-1];
+                        caughtArguments.initMessLevelOuter = (isNaN(chatCommand[chatCommand.length-1])) ? BCDWCONST.diaperDefaultValues.messLevelOuter : chatCommand[chatCommand.length-1];
                         break;
                 }
                 chatCommand.pop();
@@ -184,16 +180,16 @@ function bcdwCommands(chatCommand, callerID, type)
         switch (tempVal)
         {
             case commandArguments[0]:
-                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: BCDW.diaperHelpMessages.start}]});
+                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: BCDWCONST.diaperHelpMessages.start}]});
                 break;
             case commandArguments[1]:
-                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: BCDW.diaperHelpMessages.change}]});
+                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: BCDWCONST.diaperHelpMessages.change}]});
                 break;
             case commandArguments[2]:
-                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: BCDW.diaperHelpMessages.stop}]});
+                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: BCDWCONST.diaperHelpMessages.stop}]});
                 break;
             default:
-                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: BCDW.diaperHelpMessages.default}]});
+                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: BCDWCONST.diaperHelpMessages.default}]});
                 break;
         }
     }
@@ -202,15 +198,15 @@ function bcdwCommands(chatCommand, callerID, type)
 // Initializer function
 function diaperWetter( 
     {
-        initMessChance = BCDW.diaperDefaultValues.messChance,
-        initWetChance = BCDW.diaperDefaultValues.wetChance,
-        baseTimer = BCDW.diaperDefaultValues.baseTimer,
-        initRegressionLevel = BCDW.diaperDefaultValues.regressionLevel,
-        initDesperationLevel = BCDW.diaperDefaultValues.desperationLevel,
-        initMessLevelInner = BCDW.diaperDefaultValues.messLevelInner,
-        initWetLevelInner = BCDW.diaperDefaultValues.wetLevelInner,
-        initMessLevelOuter = BCDW.diaperDefaultValues.messLevelOuter,
-        initWetLevelOuter = BCDW.diaperDefaultValues.wetLevelOuter
+        initMessChance = BCDWCONST.diaperDefaultValues.messChance,
+        initWetChance = BCDWCONST.diaperDefaultValues.wetChance,
+        baseTimer = BCDWCONST.diaperDefaultValues.baseTimer,
+        initRegressionLevel = BCDWCONST.diaperDefaultValues.regressionLevel,
+        initDesperationLevel = BCDWCONST.diaperDefaultValues.desperationLevel,
+        initMessLevelInner = BCDWCONST.diaperDefaultValues.messLevelInner,
+        initWetLevelInner = BCDWCONST.diaperDefaultValues.wetLevelInner,
+        initMessLevelOuter = BCDWCONST.diaperDefaultValues.messLevelOuter,
+        initWetLevelOuter = BCDWCONST.diaperDefaultValues.wetLevelOuter
     } = {}
 )
 {
@@ -222,32 +218,32 @@ function diaperWetter(
     {
         cdiaper: "both",
         inMessLevelChastity: (initMessLevelOuter < 0 || initMessLevelOuter > 2) ? 
-            BCDW.diaperDefaultValues.messLevelOuter : 
+            BCDWCONST.diaperDefaultValues.messLevelOuter : 
             initMessLevelOuter,
         inWetLevelChastity: (initWetLevelOuter < 0 || initWetLevelOuter > 2) ? 
             ((initMessLevelOuter < 0 || initMessLevelOuter > 2) ? 
-                BCDW.diaperDefaultValues.messLevelOuter : 
+                BCDWCONST.diaperDefaultValues.messLevelOuter : 
                 inMessLevelOuter
             ) : 
             ((initWetLevelOuter > initMessLevelOuter) ? 
                 initWetLevelOuter : 
                 ((initMessLevelOuter < 0 || initMessLevelOuter > 2) ? 
-                    BCDW.diaperDefaultValues.messLevelOuter : 
+                    BCDWCONST.diaperDefaultValues.messLevelOuter : 
                     initMessLevelOuter
                 )
             ),
         inMessLevelPanties: (initMessLevelInner < 0 || initMessLevelInner > 2) ? 
-            BCDW.diaperDefaultValues.messLevelInner : 
+            BCDWCONST.diaperDefaultValues.messLevelInner : 
             initMessLevelInner,
         inWetLevelPanties: (initWetLevelInner < 0 || initWetLevelInner > 2) ? 
             ((initMessLevelInner < 0 || initMessLevelInner > 2) ? 
-                BCDW.diaperDefaultValues.messLevelInner : 
+                BCDWCONST.diaperDefaultValues.messLevelInner : 
                 initMessLevelOuter
             ) : 
             ((initWetLevelInner > initMessLevelInner) ? 
                 initWetLevelInner : 
                 ((initMessLevelInner < 0 || initMessLevelInner > 2) ? 
-                    BCDW.diaperDefaultValues.messLevelInner : 
+                    BCDWCONST.diaperDefaultValues.messLevelInner : 
                     initMessLevelInner
                 )
             ),
@@ -284,10 +280,10 @@ function changeDiaperTimer(delay)
 function refreshDiaper(
     {
         cdiaper = "both",
-        inWetLevelPanties = BCDW.diaperDefaultValues.wetLevelInner,
-        inMessLevelPanties =  BCDW.diaperDefaultValues.messLevelInner,
-        inWetLevelChastity = BCDW.diaperDefaultValues.wetLevelOuter,
-        inMessLevelChastity = BCDW.diaperDefaultValues.messLevelOuter,
+        inWetLevelPanties = BCDWCONST.diaperDefaultValues.wetLevelInner,
+        inMessLevelPanties =  BCDWCONST.diaperDefaultValues.messLevelInner,
+        inWetLevelChastity = BCDWCONST.diaperDefaultValues.wetLevelOuter,
+        inMessLevelChastity = BCDWCONST.diaperDefaultValues.messLevelOuter,
     } = {}
 )
 {
@@ -301,11 +297,11 @@ function refreshDiaper(
         changeDiaperColor("Panties");
         if (checkForDiaper("Panties") && checkForDiaper("ItemPelvis"))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["ChangeDiaperBoth"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["ChangeDiaperBoth"]}]});
         }
         else if ((checkForDiaper("Panties") && !checkForDiaper("ItemPelvis")) || (checkForDiaper("ItemPelvis") && !checkForDiaper("Panties")))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["ChangeDiaperOnly"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["ChangeDiaperOnly"]}]});
         }
     }
     else if (cdiaper === "chastity")
@@ -315,11 +311,11 @@ function refreshDiaper(
         changeDiaperColor("ItemPelvis");
         if (checkForDiaper("ItemPelvis") && checkForDiaper("Panties"))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["ChangeDiaperOuter"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["ChangeDiaperOuter"]}]});
         }
         else if (checkForDiaper("ItemPelvis") && !checkForDiaper("Panties"))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["ChangeDiaperOnly"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["ChangeDiaperOnly"]}]});
         }
     }
     else if (cdiaper === "panties")
@@ -329,11 +325,11 @@ function refreshDiaper(
         changeDiaperColor("Panties");
         if (checkForDiaper("ItemPelvis") && checkForDiaper("Panties"))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["ChangeDiaperOuter"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["ChangeDiaperOuter"]}]});
         }
         else if (checkForDiaper("Panties") && !checkForDiaper("ItemPelvis"))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["ChangeDiaperOnly"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["ChangeDiaperOnly"]}]});
         }
     }
 }
@@ -400,7 +396,7 @@ function changeDiaperColor(slot)
             slot,
             [
                 InventoryGet(Player, slot)?.Color[0],
-                BCDW.DiaperUseLevels[MessLevelChastity][WetLevelChastity-MessLevelChastity],
+                BCDWVari.DiaperUseLevels[MessLevelChastity][WetLevelChastity-MessLevelChastity],
                 InventoryGet(Player, slot)?.Color[2],
                 InventoryGet(Player, slot)?.Color[3]
             ],
@@ -416,7 +412,7 @@ function changeDiaperColor(slot)
             slot,
             [
                 InventoryGet(Player, slot)?.Color[0],
-                BCDW.DiaperUseLevels[MessLevelPanties][WetLevelPanties-MessLevelPanties],
+                BCDWVari.DiaperUseLevels[MessLevelPanties][WetLevelPanties-MessLevelPanties],
                 InventoryGet(Player, slot)?.Color[2],
                 InventoryGet(Player, slot)?.Color[3]
             ],
@@ -481,30 +477,30 @@ function diaperTick()
         // Display messages for when a diaper is messed.
         if ((MessLevelPanties === 2 && checkForDiaper("Panties") && !checkForDiaper("ItemPelvis")) || (MessLevelChastity === 2 && checkForDiaper("ItemPelvis") && !checkForDiaper("Panties")))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["MessOnlyFully"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["MessOnlyFully"]}]});
         }
         else if ((checkForDiaper("Panties") && !checkForDiaper("ItemPelvis")) || (checkForDiaper("ItemPelvis") && !checkForDiaper("Panties")))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["MessOnly"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["MessOnly"]}]});
         }
         else if (MessLevelChastity === 0)
         {
             if (MessLevelPanties === 2)
             {
-                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["MessInnerFully"]}]});
+                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["MessInnerFully"]}]});
             }
             else if (MessLevelPanties === 1)
             {
-                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["MessInner"]}]});
+                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["MessInner"]}]});
             }
         }
         else if (MessLevelChastity === 1)
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["MessOuter"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["MessOuter"]}]});
         }
         else if (MessLevelChastity === 2)
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["MessOuterFully"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["MessOuterFully"]}]});
         }
     }
     // If the baby only wets, increment the wet level to a max of 2.
@@ -522,30 +518,30 @@ function diaperTick()
         // Display messages for when a diaper is wet.
         if ((WetLevelPanties === 2 && checkForDiaper("Panties") && !checkForDiaper("ItemPelvis")) || (WetLevelChastity === 2 && checkForDiaper("ItemPelvis") && !checkForDiaper("Panties")))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["MessOnlyFully"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["MessOnlyFully"]}]});
         }
         else if ((checkForDiaper("Panties") && !checkForDiaper("ItemPelvis")) || (checkForDiaper("ItemPelvis") && !checkForDiaper("Panties")))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["WetOnly"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["WetOnly"]}]});
         }
         else if (WetLevelChastity === 0)
         {
             if (WetLevelPanties === 2)
             {
-                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["WetInnerFully"]}]});
+                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["WetInnerFully"]}]});
             }
             else if (WetLevelPanties === 1)
             {
-                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["WetInner"]}]});
+                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["WetInner"]}]});
             }
         }
         else if (WetLevelChastity === 1)
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["WetOuter"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["WetOuter"]}]});
         }
         else if (WetLevelChastity === 2)
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDW.DiaperUseMessages["WetOuterFully"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST.DiaperUseMessages["WetOuterFully"]}]});
         }
     }
     // Don't update the color when it's not needed.
