@@ -11,7 +11,7 @@ function bcdwStartListening()
 {
     try
     {
-        ServerSocket?.on("ChatRoomMessage", bcdw);
+        ServerSocket.on("ChatRoomMessage", bcdw);
     }
     catch(error)
     {
