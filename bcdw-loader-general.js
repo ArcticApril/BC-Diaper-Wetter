@@ -9,12 +9,7 @@ function loadComponent(url)
         let script = document.createElement('script');
         script.setAttribute("language", "JavaScript");
         script.setAttribute("crossorigin", "anonymous");
-        script.setAttribute("type", "module");
         script.src = url;
-        if (!url.includes("BCDiaperWetter.js"))
-        {
-            script.async = false;
-        }
         script.onload = function()
         {
             resolve(url);
