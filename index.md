@@ -1,5 +1,5 @@
 # How to use
-To download, [either copy the text in this file to a bookmark](https://github.com/mrbakucamp/BC-Diaper-Wetter/bcdw-loader-bookmark.js) or [add this](https://mrbakucamp.github.io/BC-Diaper-Wetter/bcdw-loader-tampermonkey.js) as a [Tampermonkey](https://www.tampermonkey.net/) script.
+To download, [either copy the text in this file to a bookmark](https://mrbakucamp.github.io/BC-Diaper-Wetter/bcdw-loader-bookmark.js) or [add this](https://mrbakucamp.github.io/BC-Diaper-Wetter/bcdw-loader-tampermonkey.js) as a [Tampermonkey](https://www.tampermonkey.net/) script.
 Once you have done that, wear either a poofy or bulky diaper (either the panties or chastity version, or both if you want more potential uses!) and type `->diaper start` in chat. Once you're done using it, type `->diaper stop` to become contienent again.
 
 ## Aditional usage tips
