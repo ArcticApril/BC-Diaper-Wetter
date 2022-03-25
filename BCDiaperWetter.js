@@ -18,6 +18,7 @@ function bcdwStartListening()
         setTimeout(bcdwStartListening, 500);
     }
 }
+bcdwStartListening();
 
 // Destutter speach. Needed for interations with other mods
 function destutter(string)
