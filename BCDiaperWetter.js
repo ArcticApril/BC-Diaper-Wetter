@@ -152,7 +152,7 @@ function bcdwCommands(chatCommand, callerID, type)
                 {
                     if (!checkForDiaper("panties"))
                     {
-                        ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + " doesn't have a diaper there!"}]});
+                        ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + " doesn't have a diaper there!"}]});
                     }
                     else
                     {
@@ -163,7 +163,7 @@ function bcdwCommands(chatCommand, callerID, type)
                 {
                     if (!checkForDiaper === "chastity")
                     {
-                        ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + " doesn't have a diaper there!"}]});
+                        ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + " doesn't have a diaper there!"}]});
                     }
                     else
                     {
@@ -174,7 +174,7 @@ function bcdwCommands(chatCommand, callerID, type)
                 {
                     if (!(checkForDiaper("panties") || checkForDiaper("chastity")))
                     {
-                        ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + " doesn't have a diaper! Get one on her before she makes a mess!"}]});
+                        ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + " doesn't have a diaper! Get one on her before she makes a mess!"}]});
                     }
                     else
                     {
@@ -224,7 +224,12 @@ function diaperWetter(
 )
 {
     // Greating message
-    ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: "Say hello to the little baby " + Player.Name + "!"}]});
+    if (Player.Nickname == '') { 
+        var tmpname = Player.Name;
+    } else {
+        var tmpname = Player.Nickname;
+    }
+    ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: "Say hello to the little baby " + tmpname + "!"}]});
 
     // Initial clear.
     refreshDiaper(
@@ -300,6 +305,28 @@ function refreshDiaper(
     } = {}
 )
 {
+    if (Player.Nickname == '') { 
+        var tmpname = Player.Name;
+    } else {
+        var tmpname = Player.Nickname;
+    }
+    if (InventoryGet(Player, "Pronouns").Asset.Name == "HeHim")  {
+        var tmpr1 = "He";
+        var tmpr2 = "him";
+        var tmpr3 = "his";
+	var tmpr4 = "he";
+    } else {
+        var tmpr1 = "She";
+        var tmpr2 = "her";
+        var tmpr3 = "her";
+	var tmpr4 = "she";
+    }
+    DiaperChangeMessages = {
+        "ChangeDiaperInner": " has gotten a fresh inner diaper.",
+        "ChangeDiaperOuter": " has gotten a fresh outer diaper.",
+        "ChangeDiaperOnly": " has gotten a fresh diaper.",
+        "ChangeDiaperBoth": " has gotten a fresh pair of diapers."
+    };
     if (cdiaper === "both")
     {
         MessLevelPanties = inMessLevelPanties;
@@ -310,11 +337,11 @@ function refreshDiaper(
         changeDiaperColor("Panties");
         if (checkForDiaper("Panties") && checkForDiaper("ItemPelvis"))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["ChangeDiaperBoth"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperChangeMessages["ChangeDiaperBoth"]}]});
         }
         else if ((checkForDiaper("Panties") && !checkForDiaper("ItemPelvis")) || (checkForDiaper("ItemPelvis") && !checkForDiaper("Panties")))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["ChangeDiaperOnly"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperChangeMessages["ChangeDiaperOnly"]}]});
         }
     }
     else if (cdiaper === "chastity")
@@ -324,11 +351,11 @@ function refreshDiaper(
         changeDiaperColor("ItemPelvis");
         if (checkForDiaper("ItemPelvis") && checkForDiaper("Panties"))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["ChangeDiaperOuter"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperChangeMessages["ChangeDiaperOuter"]}]});
         }
         else if (checkForDiaper("ItemPelvis") && !checkForDiaper("Panties"))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["ChangeDiaperOnly"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperChangeMessages["ChangeDiaperOnly"]}]});
         }
     }
     else if (cdiaper === "panties")
@@ -338,11 +365,11 @@ function refreshDiaper(
         changeDiaperColor("Panties");
         if (checkForDiaper("ItemPelvis") && checkForDiaper("Panties"))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["ChangeDiaperOuter"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text:tmpname + DiaperChangeMessages["ChangeDiaperOuter"]}]});
         }
         else if (checkForDiaper("Panties") && !checkForDiaper("ItemPelvis"))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["ChangeDiaperOnly"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperChangeMessages["ChangeDiaperOnly"]}]});
         }
     }
 }
@@ -457,8 +484,13 @@ function checkTick()
     }
     else
     {
+        if (Player.Nickname == '') { 
+            var tmpname = Player.Name;
+        } else {
+            var tmpname = Player.Nickname;
+        }
         diaperRunning = false;
-        ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: "Awww, " + Player.Name + " is all grown up!"}]});
+        ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: "Awww, " + tmpname + " is all grown up!"}]});
     }
 }
 
@@ -467,6 +499,36 @@ function checkTick()
 function diaperTick()
 {
     // Handle modifiers
+    if (Player.Nickname == '') { 
+        var tmpname = Player.Name;
+    } else {
+        var tmpname = Player.Nickname;
+    }
+    if (InventoryGet(Player, "Pronouns").Asset.Name == "HeHim")  {
+        var tmpr1 = "He";
+        var tmpr2 = "him";
+        var tmpr3 = "his";
+	    var tmpr4 = "he";
+    } else {
+        var tmpr1 = "She";
+        var tmpr2 = "her";
+        var tmpr3 = "her";
+	    var tmpr4 = "she";
+    }
+    DiaperUseMessages = {
+        "MessInner": " has messed " + tmpr3 + " inner diaper.",
+        "MessInnerFully": " has fully messed " + tmpr3 + " inner diaper.",
+        "WetInner": " has wet " + tmpr3 + " inner diaper.",
+        "WetInnerFully": " has fully wet " + tmpr3 + " inner diaper.",
+        "MessOuter": " has messed " + tmpr3 + " outer diaper.",
+        "MessOuterFully": " has fully messed " + tmpr3 + " outer diaper.",
+        "WetOuter": " has wet " + tmpr3 + " outer diaper.",
+        "WetOuterFully": " has fully wet " + tmpr3 + " outer diaper.",
+        "MessOnly": " has messed " + tmpr3 + " diaper.",
+        "MessOnlyFully": " has fully messed " + tmpr3 + " diaper.",
+        "WetOnly": " has wet " + tmpr3 + " diaper.",
+        "WetOnlyFully": " has fully " + tmpr3 + " her diaper."
+    };
     var diaperTimerModifier = 1;    // We will divide by the modifier (positive modifiers decrease the timer)
     diaperTimerModifier = manageRegression(diaperTimerModifier);
     diaperTimerModifier = manageDesperation(diaperTimerModifier);
@@ -490,30 +552,30 @@ function diaperTick()
         // Display messages for when a diaper is messed.
         if ((MessLevelPanties === 2 && checkForDiaper("Panties") && !checkForDiaper("ItemPelvis")) || (MessLevelChastity === 2 && checkForDiaper("ItemPelvis") && !checkForDiaper("Panties")))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["MessOnlyFully"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperUseMessages["MessOnlyFully"]}]});
         }
         else if ((checkForDiaper("Panties") && !checkForDiaper("ItemPelvis")) || (checkForDiaper("ItemPelvis") && !checkForDiaper("Panties")))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["MessOnly"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperUseMessages["MessOnly"]}]});
         }
         else if (MessLevelChastity === 0)
         {
             if (MessLevelPanties === 2)
             {
-                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["MessInnerFully"]}]});
+                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperUseMessages["MessInnerFully"]}]});
             }
             else if (MessLevelPanties === 1)
             {
-                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["MessInner"]}]});
+                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperUseMessages["MessInner"]}]});
             }
         }
         else if (MessLevelChastity === 1)
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["MessOuter"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperUseMessages["MessOuter"]}]});
         }
         else if (MessLevelChastity === 2)
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["MessOuterFully"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperUseMessages["MessOuterFully"]}]});
         }
     }
     // If the baby only wets, increment the wet level to a max of 2.
@@ -531,30 +593,30 @@ function diaperTick()
         // Display messages for when a diaper is wet.
         if ((WetLevelPanties === 2 && checkForDiaper("Panties") && !checkForDiaper("ItemPelvis")) || (WetLevelChastity === 2 && checkForDiaper("ItemPelvis") && !checkForDiaper("Panties")))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["MessOnlyFully"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperUseMessages["MessOnlyFully"]}]});
         }
         else if ((checkForDiaper("Panties") && !checkForDiaper("ItemPelvis")) || (checkForDiaper("ItemPelvis") && !checkForDiaper("Panties")))
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["WetOnly"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperUseMessages["WetOnly"]}]});
         }
         else if (WetLevelChastity === 0)
         {
             if (WetLevelPanties === 2)
             {
-                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["WetInnerFully"]}]});
+                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperUseMessages["WetInnerFully"]}]});
             }
             else if (WetLevelPanties === 1)
             {
-                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["WetInner"]}]});
+                ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperUseMessages["WetInner"]}]});
             }
         }
         else if (WetLevelChastity === 1)
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["WetOuter"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperUseMessages["WetOuter"]}]});
         }
         else if (WetLevelChastity === 2)
         {
-            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + BCDWCONST?.DiaperUseMessages["WetOuterFully"]}]});
+            ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: tmpname + DiaperUseMessages["WetOuterFully"]}]});
         }
     }
     // Don't update the color when it's not needed.
