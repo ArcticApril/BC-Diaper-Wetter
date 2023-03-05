@@ -350,7 +350,7 @@ function refreshDiaper(
 // Check for if a diaper is in the Panties or ItemPelvies slot
 function checkForDiaper(slot) 
 {
-    return InventoryGet(Player, slot)?.Asset?.Name === "PoofyDiaper" || InventoryGet(Player, slot)?.Asset?.Name === "BulkyDiaper";
+    return (InventoryGet(Player, slot)?.Asset?.Name === "PoofyDiaper") || (InventoryGet(Player, slot)?.Asset?.Name === "BulkyDiaper");
 }
 
 // Checks to see if the user has a nursery milk equiped
