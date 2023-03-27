@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         BC Diaper Wetter
+// @name         BC Diaper Wetter - SageForce Fix
 // @namespace    https://www.bondageprojects.com/
 // @version      0.1.1
 // @description  A simple script that will automatically make a baby use their diaper
@@ -21,7 +21,7 @@ setTimeout(
         let n = document.createElement("script");
         n.setAttribute("language", "JavaScript");
         n.setAttribute("crossorigin", "anonymous");
-        n.setAttribute("src", "https://github.com/sageforce/BC-Diaper-Wetter/blob/sageforce-patch-1/bcdw-loader-general.js?_=" + Date.now());
+        n.setAttribute("src", "https://github.com/sageforce/BC-Diaper-Wetter/blob/sageforce-patch-1/bcdw-loader-general.js");
         n.onload = () => n.remove();
         document.head.appendChild(n);
     },
