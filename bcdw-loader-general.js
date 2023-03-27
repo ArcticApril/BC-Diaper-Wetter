@@ -1,5 +1,5 @@
-Headers()
-Headers.append("Access-Control-Allow-Origin", "https://www.bondage-europe.com/")
+new Headers("Access-Control-Allow-Origin: https://www.bondage-europe.com/")
+
 
 
 (function() {
