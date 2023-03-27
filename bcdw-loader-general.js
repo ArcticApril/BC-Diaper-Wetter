@@ -24,8 +24,8 @@ function loadComponent(url)
 
 let scripts =
 [
-    "https://mrbakucamp.github.io/BC-Diaper-Wetter/BCDiaperWetter.js",
-    "https://mrbakucamp.github.io/BC-Diaper-Wetter/bcdw-tables.js"
+    "https://github.com/sageforce/BC-Diaper-Wetter/blob/sageforce-patch-1/BCDiaperWetter.js",
+    "https://github.com/sageforce/BC-Diaper-Wetter/blob/sageforce-patch-1/bcdw-tables.js"
 ]
 
 let promises = [];
