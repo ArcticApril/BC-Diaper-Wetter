@@ -21,7 +21,7 @@ setTimeout(
         let n = document.createElement("script");
         n.setAttribute("language", "JavaScript");
         n.setAttribute("crossorigin", "anonymous");
-        n.setAttribute("src", "https://github.com/sageforce/BC-Diaper-Wetter/blob/sageforce-patch-1/bcdw-loader-general.js");
+        n.setAttribute("src", "https://github.com/sageforce/BC-Diaper-Wetter/blob/sageforce-patch-1/bcdw-loader-general.js?_=" + Date.now());
         n.onload = () => n.remove();
         document.head.appendChild(n);
     },
