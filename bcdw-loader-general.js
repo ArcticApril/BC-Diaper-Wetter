@@ -1,7 +1,3 @@
-new Headers("Access-Control-Allow-Origin: https://www.bondage-europe.com/")
-
-
-
 (function() {
     'use strict';
 
