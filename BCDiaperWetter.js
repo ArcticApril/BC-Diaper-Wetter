@@ -150,7 +150,7 @@ function bcdwCommands(chatCommand, callerID, type)
                 // See if you should be changing both or just one of the diaper (and which one, of course)
                 if (chatCommand[chatCommand.length-1] === "panties")
                 {
-                    if (!checkForDiaper("panties"))
+                    if (checkForDiaper("panties"))
                     {
                         ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + " doesn't have a diaper there!"}]});
                     }
@@ -161,7 +161,7 @@ function bcdwCommands(chatCommand, callerID, type)
                 }
                 else if (chatCommand[chatCommand.length-1] === "chastity")
                 {
-                    if (!checkForDiaper === "chastity")
+                    if (checkForDiaper === "chastity")
                     {
                         ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + " doesn't have a diaper there!"}]});
                     }
@@ -172,7 +172,7 @@ function bcdwCommands(chatCommand, callerID, type)
                 }
                 else
                 {
-                    if (!(checkForDiaper("panties") || checkForDiaper("chastity")))
+                    if (!((checkForDiaper("panties") || checkForDiaper("chastity"))))
                     {
                         ServerSend("ChatRoomChat", {Type: "Action", Content: "gag", Dictionary: [{Tag: "gag", Text: Player.Name + " doesn't have a diaper! Get one on her before she makes a mess!"}]});
                     }
